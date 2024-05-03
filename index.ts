@@ -39,8 +39,6 @@ function maxRunFunction(userWord: string): number {
 }
 
 // Create a prompt instance using 'bun-promptx'
-const prompt = createPrompt();
-
 // Ask the user to enter a string
 const userString = prompt('Enter a string: ');
 
