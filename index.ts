@@ -34,7 +34,7 @@ function maxRunFunction(userWord: string): number {
   return maxRun
 }
 
-const prompt = promptSync()
+const prompt = createPrompt()
 const userString = prompt('Enter a string: ')
 const maxRunValue = maxRunFunction(userString)
 console.log(`The max run is ${maxRunValue}`)
