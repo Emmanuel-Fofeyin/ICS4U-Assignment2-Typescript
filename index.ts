@@ -8,43 +8,60 @@
 
 import { createPrompt } from 'bun-promptx'
 
+// Utility function to convert a whole number to its English word representation
+function numberToWords(num: number): string {
+  if (num === 0) return "zero";
+  
+  const belowTwenty = [
+    "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+    "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen",
+    "eighteen", "nineteen"
+  ];
+  
+  const tens = [
+    "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"
+  ];
+  
+  const hundreds = (num: number): string => {
+    if (num < 20) {
+      return belowTwenty[num - 1];
+    } else if (num < 100) {
+      const tenIndex = Math.floor(num / 10);
+      const unitIndex = num % 10;
+      return tens[tenIndex - 1] + (unitIndex ? ` ${belowTwenty[unitIndex - 1]}` : "");
+    } else {
+      const hundredIndex = Math.floor(num / 100);
+      const remainder = num % 100;
+      return (
+        belowTwenty[hundredIndex - 1] +
+        " hundred" +
+        (remainder ? ` ${hundreds(remainder)}` : "")
+      );
+    }
+  };
 
-function palindrome(string) {
-  /*
-   * This function calculates if a string is a palindrome
-   */
-  let reversedString = ""
-  let isPalindrome
-  // reverse string
-  for (let counter = string.length - 1; counter >= 0; counter--) {
-    reversedString += string[counter]
-  }
-  // check if string is palindrome (capitalization doesn't matter)
-  if (string.toLowerCase() === reversedString.toLowerCase()) {
-    isPalindrome = true
-  } else {
-    isPalindrome = false
-  }
-
-  return isPalindrome
+  return hundreds(num);
 }
 
-
-// input
-const userString = createPrompt("Enter a string: ")
-const string = userString.value
-// error check
-if (string.length === 0) {
-  console.log("Invalid input.")
-} else {
-  // process
-  let isPalindrome = palindrome(string)
-  // output
-  if (isPalindrome) {
-    console.log(`${string} is a palindrome.`)
-  } else {
-    console.log(`${string} is NOT a palindrome.`)
+// Main function to get words in alphabetical order for whole numbers up to input
+function numbersToWordsInAlphabeticalOrder(input: number): string[] {
+  if (input < 0) {
+    throw new Error("Input must be a non-negative whole number.");
   }
+  
+  const wordsArray: string[] = [];
+  
+  // Generate numbers from 0 to input and convert to words
+  for (let i = 0; i <= input; i++) {
+    wordsArray.push(numberToWords(i));
+  }
+  
+  // Sort the words array alphabetically
+  wordsArray.sort((a, b) => a.localeCompare(b));
+  
+  return wordsArray;
 }
 
-console.log("\nDone.")
+// Example usage
+const sortedWords = numbersToWordsInAlphabeticalOrder(10);
+console.log(sortedWords);
