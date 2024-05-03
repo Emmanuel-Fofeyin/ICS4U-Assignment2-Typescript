@@ -39,7 +39,7 @@ function maxRunFunction(userWord: string): number {
 }
 
 // Ask the user to enter a string
-const userString = prompt('Enter a string: ');
+const userString = CreatePrompt('Enter a string: ');
 
 // Calculate the maximum run of identical characters
 const maxRunValue = maxRunFunction(userString);
