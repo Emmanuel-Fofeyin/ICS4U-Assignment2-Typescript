@@ -1,42 +1,53 @@
-/*
- * this is the Palindrome program
+/**
+ * The program gets the max run
  *
- * @author  Emmanuel FN
- * @version 1.0
- * @since   2024-05-03
+ * By:      Emmanuel FN
+ * Version: 1.0
+ * Since:   2022-05-03
  */
 
-import { createPrompt } from 'bun-promptx'
+import { createPrompt } from 'bun-promptx';
 
 /**
- * The function finds the max run
+ * Function to find the longest consecutive run of identical characters in a given string.
  *
- * @param {string} userWord  - String variable
- * @returns {number} Return value
+ * @param userWord The string to examine.
+ * @returns The length of the longest run.
  */
 function maxRunFunction(userWord: string): number {
-  let maxRun = 1
-  let tempValue = 1
-  for (let counter = 0; counter < userWord.length; counter++) {
+  let maxRun = 1; // Initialize maximum run
+  let currentRun = 1; // Initialize current run count
+  
+  // Loop through the string to find consecutive runs
+  for (let counter = 0; counter < userWord.length - 1; counter++) {
     if (userWord.charAt(counter) === userWord.charAt(counter + 1)) {
-      tempValue += 1
+      currentRun++; // Increment the current run if the characters are the same
     } else {
-      if (tempValue > maxRun) {
-        maxRun = tempValue
-        tempValue = 1
+      if (currentRun > maxRun) {
+        maxRun = currentRun; // Update the maximum run if the current run is longer
       }
+      currentRun = 1; // Reset the current run count
     }
   }
-  if (tempValue > maxRun) {
-    maxRun = tempValue
-    tempValue = 1
+  
+  // Check the final run to ensure it is included in the maximum
+  if (currentRun > maxRun) {
+    maxRun = currentRun;
   }
-  return maxRun
+  
+  return maxRun;
 }
 
-const prompt = createPrompt()
-const userString = prompt('Enter a string: ')
-const maxRunValue = maxRunFunction(userString)
-console.log(`The max run is ${maxRunValue}`)
+// Create a prompt instance using 'bun-promptx'
+const prompt = createPrompt();
 
-console.log('\nDone.')
+// Ask the user to enter a string
+const userString = prompt('Enter a string: ');
+
+// Calculate the maximum run of identical characters
+const maxRunValue = maxRunFunction(userString);
+
+// Output the result
+console.log(`The max run is ${maxRunValue}`);
+
+console.log('\nDone.');
